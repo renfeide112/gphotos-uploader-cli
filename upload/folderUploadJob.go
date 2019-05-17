@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"time"
 
 	"github.com/fatih/color"
@@ -110,6 +111,11 @@ func (folderUploadJob *FolderUploadJob) Upload() error {
 
 	err = filepath.Walk(folderAbsolutePath, func(filePath string, info os.FileInfo, err error) error {
 		if info.IsDir() {
+			return nil
+		}
+
+		if m, _ := regexp.MatchString(".*eaDir.*", filePath); m {
+			fmt.Printf("eadir: %s: skipping file...\n", filePath)
 			return nil
 		}
 
